@@ -13,10 +13,10 @@ python2
 
 2. 配置程序
 
-func/setting.py:
+    func/setting.py:
 - `GARBAGE_PARAM` 存放不想检测的参数
 
-func/SqlChecker.py:
+  func/SqlChecker.py:
 - 如需微信告警需添加 `SERVER_JIANG_API`
 
 2. 命令行执行 `python passiveSqlCheck.py` 
