@@ -12,6 +12,7 @@ python2
 ![](./img/passiveSqlCheck01.png)
 
 2. 配置程序
+
 func/setting.py:
 - `GARBAGE_PARAM` 存放不想检测的参数
 
