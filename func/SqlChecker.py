@@ -322,13 +322,52 @@ class SqlChecker:
         if isinstance(sqlmark_site, dict):
             for site in sqlmark_site:
                 if SQLMARK in sqlmark_site[site]:
-                    self.param = site
-                    self.paramvalue = sqlmark_site[site].replace(SQLMARK,'')
-                    break
+                    if re.search(MULTIPART_REGEX, sqlmark_site):
+                        pass
+                    elif re.search(JSON_REGEX, sqlmark_site):
+                        pass
+                    elif re.search(XML_REGEX, sqlmark_site):
+                        pass
+                    else:
+                        self.param = site
+                        self.paramvalue = sqlmark_site[site].replace(SQLMARK,'')
+                        break
+        # url、data、cookies
         else:
-            # cookies
-            self.param = re.search('(?:\?|&|)(\w*?)=(?:[^=]*?)'+SQLMARK, sqlmark_site).group(1)
-            self.paramvalue = re.search('=([^=]*?)'+SQLMARK, sqlmark_site).group(1)
+            if re.search(MULTIPART_REGEX, sqlmark_site):
+                param_tuple = re.finditer(r"(?si)((Content-Disposition[^\n]+?name\s*=\s*[\"']?(?P<name>[^\"'\r\n]+)[\"']?).+?\r?\n?)(((\r)?\n)+--)", sqlmark_site)
+                for param in param_tuple:
+                    if SQLMARK in param.group(1):
+                        self.param = param.group(3)
+                        self.paramvalue = param.group(1).split('\r\n\r\n')[-1].replace(SQLMARK, '')
+                        break
+            elif re.search(JSON_REGEX, sqlmark_site):
+                param_tuple = re.finditer(r'("(?P<name>[^"]+)"\s*:\s*".*?)"(?<!\\")', sqlmark_site)
+                for param in param_tuple:
+                    if SQLMARK in param.group(1):
+                        self.param = param.group(2)
+                        self.paramvalue = param.group(1).split('"')[-1].replace(SQLMARK,'')
+                        break
+            elif re.search(XML_REGEX, sqlmark_site):
+                param_tuple = re.finditer(r"(<(?P<name>[^>]+)( [^<]*)?>)([^<]+)(</\2)", sqlmark_site)
+                for param in param_tuple:
+                    self.param = param.group(2)
+                    self.paramvalue = param.group(4).replace(SQLMARK,'')
+                    break
+            else:
+                self.param = re.search('(?:\?|&|)(\w*?)=(?:[^=]*?)'+SQLMARK, sqlmark_site).group(1)
+                self.paramvalue = re.search('=([^=]*?)'+SQLMARK, sqlmark_site).group(1)
+        # # headers
+        # if isinstance(sqlmark_site, dict):
+        #     for site in sqlmark_site:
+        #         if SQLMARK in sqlmark_site[site]:
+        #             self.param = site
+        #             self.paramvalue = sqlmark_site[site].replace(SQLMARK,'')
+        #             break
+        # else:
+        #     # cookies
+        #     self.param = re.search('(?:\?|&|)(\w*?)=(?:[^=]*?)'+SQLMARK, sqlmark_site).group(1)
+        #     self.paramvalue = re.search('=([^=]*?)'+SQLMARK, sqlmark_site).group(1)
 
     # 对注入标记进行处理，判断注入
     def check_mark_sql(self,req_info):
@@ -341,6 +380,7 @@ class SqlChecker:
         if SQLMARK in req_info['url'] or SQLMARK in str(req_info['headers']) or SQLMARK in req_info['data'] or SQLMARK in str(req_info['cookie']):
             self.mark_flag = True
             if SQLMARK in req_info['url']:
+                self.findParamvalue(req_info['url'])
                 # 循环每个payload
                 for ptype in self.payload_dict:
                     self.ptype = ptype
@@ -356,6 +396,7 @@ class SqlChecker:
                                 if self.send_mark_sql(req_info, 'url', payload) == 1:
                                     return 1
             if SQLMARK in req_info['data']:
+                self.findParamvalue(req_info['data'])
                 for ptype in self.payload_dict:
                     self.ptype = ptype
                     for dbms in self.payload_dict[ptype]:

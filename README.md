@@ -2,10 +2,10 @@
 被动式注入扫描器，借鉴了lufei大佬的 SqlChecker ： [https://github.com/lufeirider/SqlChecker](https://github.com/lufeirider/SqlChecker)
 
 # 更新
-- `2020-07-14` ：支持普通json格式的数据包
+- `2020-07-14` ：支持普通json、xml、文件mutipart格式的数据包
 
 # TODO
-- [ ] 支持xml、mutipart格式
+- [x] 支持xml、mutipart格式
 
 
 # 环境
