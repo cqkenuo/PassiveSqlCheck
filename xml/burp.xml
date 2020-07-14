@@ -22,20 +22,21 @@
 <!ATTLIST response base64 (true|false) "false">
 <!ELEMENT comment (#PCDATA)>
 ]>
-<items>
+<items burpVersion="2.1.06" exportTime="Tue Jul 14 15:51:41 CST 2020">
   <item>
-    <url><![CDATA[http://127.0.0.1/sqli-labs/Less-1/?id=1@@]]></url>
-    <host ip="127.0.0.1">127.0.0.1</host>
-    <port>80</port>
+    <time>Tue Jul 14 15:51:34 CST 2020</time>
+    <url><![CDATA[http://49.235.198.36:8000/]]></url>
+    <host ip="49.235.198.36">49.235.198.36</host>
+    <port>8000</port>
     <protocol>http</protocol>
-    <method><![CDATA[GET]]></method>
-    <path><![CDATA[/sqli-labs/Less-1/?id=1@@]]></path>
+    <method><![CDATA[POST]]></method>
+    <path><![CDATA[/]]></path>
     <extension>null</extension>
-    <request base64="true"><![CDATA[R0VUIC9zcWxpLWxhYnMvTGVzcy0xLz9pZD0xQEAgSFRUUC8xLjENCkhvc3Q6IDEyNy4wLjAuMQpVcGdyYWRlLUluc2VjdXJlLVJlcXVlc3RzOiAxDQpVc2VyLUFnZW50OiBNb3ppbGxhLzUuMCAoV2luZG93cyBOVCAxMC4wOyBXaW42NDsgeDY0KSBBcHBsZVdlYktpdC81MzcuMzYgKEtIVE1MLCBsaWtlIEdlY2tvKSBDaHJvbWUvODMuMC40MTAzLjExNiBTYWZhcmkvNTM3LjM2DQpBY2NlcHQ6IHRleHQvaHRtbCxhcHBsaWNhdGlvbi94aHRtbCt4bWwsYXBwbGljYXRpb24veG1sO3E9MC45LGltYWdlL3dlYnAsaW1hZ2UvYXBuZywqLyo7cT0wLjgsYXBwbGljYXRpb24vc2lnbmVkLWV4Y2hhbmdlO3Y9YjM7cT0wLjkNCkFjY2VwdC1FbmNvZGluZzogZ3ppcCwgZGVmbGF0ZQ0KQWNjZXB0LUxhbmd1YWdlOiB6aC1DTix6aDtxPTAuOSxlbjtxPTAuOCx6aC1UVztxPTAuNw0KQ29ubmVjdGlvbjogY2xvc2UNCg0K]]></request>
-    <status>200</status>
-    <responselength>925</responselength>
+    <request base64="true"><![CDATA[UE9TVCAvIEhUVFAvMS4xDQpIb3N0OiA0OS4yMzUuMTk4LjM2OjgwMDANCkNvbnRlbnQtTGVuZ3RoOiAzDQpDYWNoZS1Db250cm9sOiBtYXgtYWdlPTANClVwZ3JhZGUtSW5zZWN1cmUtUmVxdWVzdHM6IDENCk9yaWdpbjogaHR0cDovLzQ5LjIzNS4xOTguMzY6ODAwMA0KQ29udGVudC1UeXBlOiBhcHBsaWNhdGlvbi94LXd3dy1mb3JtLXVybGVuY29kZWQNClVzZXItQWdlbnQ6IE1vemlsbGEvNS4wIChXaW5kb3dzIE5UIDEwLjA7IFdpbjY0OyB4NjQpIEFwcGxlV2ViS2l0LzUzNy4zNiAoS0hUTUwsIGxpa2UgR2Vja28pIENocm9tZS84My4wLjQxMDMuMTE2IFNhZmFyaS81MzcuMzYNCkFjY2VwdDogdGV4dC9odG1sLGFwcGxpY2F0aW9uL3hodG1sK3htbCxhcHBsaWNhdGlvbi94bWw7cT0wLjksaW1hZ2Uvd2VicCxpbWFnZS9hcG5nLCovKjtxPTAuOCxhcHBsaWNhdGlvbi9zaWduZWQtZXhjaGFuZ2U7dj1iMztxPTAuOQ0KUmVmZXJlcjogaHR0cDovLzQ5LjIzNS4xOTguMzY6ODAwMC8NCkFjY2VwdC1FbmNvZGluZzogZ3ppcCwgZGVmbGF0ZQ0KQWNjZXB0LUxhbmd1YWdlOiB6aC1DTix6aDtxPTAuOSxlbjtxPTAuOCx6aC1UVztxPTAuNw0KQ29va2llOiBrZXk9dmFsdWVAQA0KQ29ubmVjdGlvbjogY2xvc2UNCg0KYz0y]]></request>
+    <status>405</status>
+    <responselength>375</responselength>
     <mimetype>HTML</mimetype>
-    <response base64="true"><![CDATA[SFRUUC8xLjEgMjAwIE9LDQpDb250ZW50LUxlbmd0aDogNzIyDQpDb25uZWN0aW9uOiBjbG9zZQ0KQ29udGVudC1UeXBlOiB0ZXh0L2h0bWwNCg0KPCFET0NUWVBFIGh0bWwgUFVCTElDICItLy9XM0MvL0RURCBYSFRNTCAxLjAgVHJhbnNpdGlvbmFsLy9FTiIgImh0dHA6Ly93d3cudzMub3JnL1RSL3hodG1sMS9EVEQveGh0bWwxLXRyYW5zaXRpb25hbC5kdGQiPg0KPGh0bWwgeG1sbnM9Imh0dHA6Ly93d3cudzMub3JnLzE5OTkveGh0bWwiPg0KPGhlYWQ+DQo8bWV0YSBodHRwLWVxdWl2PSJDb250ZW50LVR5cGUiIGNvbnRlbnQ9InRleHQvaHRtbDsgY2hhcnNldD11dGYtOCIgLz4NCjx0aXRsZT5MZXNzLTEgKipFcnJvciBCYXNlZC0gU3RyaW5nKio8L3RpdGxlPg0KPC9oZWFkPg0KDQo8Ym9keSBiZ2NvbG9yPSIjMDAwMDAwIj4NCjxkaXYgc3R5bGU9IiBtYXJnaW4tdG9wOjcwcHg7Y29sb3I6I0ZGRjsgZm9udC1zaXplOjIzcHg7IHRleHQtYWxpZ246Y2VudGVyIj5XZWxjb21lJm5ic3A7Jm5ic3A7Jm5ic3A7PGZvbnQgY29sb3I9IiNGRjAwMDAiPiBEaGFra2FuIDwvZm9udD48YnI+DQo8Zm9udCBzaXplPSIzIiBjb2xvcj0iI0ZGRkYwMCI+DQoNCg0KDQoNCg0KDQoNCiANCjxmb250IHNpemU9JzUnIGNvbG9yPSAnIzk5RkYwMCc+WW91ciBMb2dpbiBuYW1lOkR1bWI8YnI+WW91ciBQYXNzd29yZDpEdW1iPC9mb250PjwvZm9udD4gPC9kaXY+PC9icj48L2JyPjwvYnI+PGNlbnRlcj4NCjxpbWcgc3JjPSIuLi9pbWFnZXMvTGVzcy0xLmpwZyIgLz48L2NlbnRlcj4NCjwvYm9keT4NCjwvaHRtbD4NCg0KDQoNCg0KDQogDQo=]]></response>
+    <response base64="true"><![CDATA[SFRUUC8xLjAgNDA1IE1FVEhPRCBOT1QgQUxMT1dFRA0KQ29udGVudC1UeXBlOiB0ZXh0L2h0bWw7IGNoYXJzZXQ9dXRmLTgNCkFsbG93OiBPUFRJT05TLCBHRVQsIEhFQUQNCkNvbnRlbnQtTGVuZ3RoOiAxNzgNClNlcnZlcjogV2Vya3pldWcvMS4wLjEgUHl0aG9uLzMuNy42DQpEYXRlOiBUdWUsIDE0IEp1bCAyMDIwIDA3OjUxOjM0IEdNVA0KDQo8IURPQ1RZUEUgSFRNTCBQVUJMSUMgIi0vL1czQy8vRFREIEhUTUwgMy4yIEZpbmFsLy9FTiI+Cjx0aXRsZT40MDUgTWV0aG9kIE5vdCBBbGxvd2VkPC90aXRsZT4KPGgxPk1ldGhvZCBOb3QgQWxsb3dlZDwvaDE+CjxwPlRoZSBtZXRob2QgaXMgbm90IGFsbG93ZWQgZm9yIHRoZSByZXF1ZXN0ZWQgVVJMLjwvcD4K]]></response>
     <comment></comment>
   </item>
 </items>

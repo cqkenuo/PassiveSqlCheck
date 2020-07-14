@@ -12,6 +12,15 @@ import requests
 import sys
 sys.dont_write_bytecode = True
 
+# Regular expression used for detecting multipart POST data
+MULTIPART_REGEX = "(?i)Content-Disposition:[^;]+;\s*name="
+
+# Regular expression used for detecting JSON POST data
+JSON_REGEX = r'(?s)\A(\s*\[)*\s*\{.*"[^"]+"\s*:\s*("[^"]*"|\d+|true|false|null).*\}\s*(\]\s*)*\Z'
+
+# Regular expression for XML POST data
+XML_REGEX = r"(?s)\A\s*<[^>]+>(.+>)?\s*\Z"
+
 # DBMS ERROR XML
 ERROR_DBMS_XML = "xml/errors.xml"
 
@@ -309,12 +318,15 @@ class SqlChecker:
     
     # 找到标记点前面的参数值，一方面是方便addPreSuffix使用，另一方面可以帮助判断何时修改参数值,sqlmark_site: SQLMARK的位置，比如req_info['url']
     def findParamvalue(self, sqlmark_site):
+        # headers
         if isinstance(sqlmark_site, dict):
             for site in sqlmark_site:
                 if SQLMARK in sqlmark_site[site]:
-                    self.param = sqlmark_site[site]
+                    self.param = site
                     self.paramvalue = sqlmark_site[site].replace(SQLMARK,'')
+                    break
         else:
+            # cookies
             self.param = re.search('(?:\?|&|)(\w*?)=(?:[^=]*?)'+SQLMARK, sqlmark_site).group(1)
             self.paramvalue = re.search('=([^=]*?)'+SQLMARK, sqlmark_site).group(1)
 
@@ -329,9 +341,6 @@ class SqlChecker:
         if SQLMARK in req_info['url'] or SQLMARK in str(req_info['headers']) or SQLMARK in req_info['data'] or SQLMARK in str(req_info['cookie']):
             self.mark_flag = True
             if SQLMARK in req_info['url']:
-                # 找到标记点前面的值是数字型还是字符型的，方便addPreSuffix使用
-                self.findParamvalue(req_info['url'])
-
                 # 循环每个payload
                 for ptype in self.payload_dict:
                     self.ptype = ptype
@@ -347,9 +356,6 @@ class SqlChecker:
                                 if self.send_mark_sql(req_info, 'url', payload) == 1:
                                     return 1
             if SQLMARK in req_info['data']:
-                # 找到标记点前面的值是数字型还是字符型的，方便addPreSuffix使用
-                self.findParamvalue(req_info['data'])
-
                 for ptype in self.payload_dict:
                     self.ptype = ptype
                     for dbms in self.payload_dict[ptype]:

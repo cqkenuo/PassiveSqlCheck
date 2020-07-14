@@ -1,5 +1,6 @@
 # encoding=utf8
 import sys
+import json
 from parse import *
 from common import *
 from colorlog import ColoredFormatter
@@ -39,11 +40,12 @@ def check(req):
     if not req_info['headers'].has_key("User-Agent"):
         req_info['headers']['User-Agent'] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.21 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.21'
 
-    #检测是否是https
+    req_headers = json.dumps(req_info['headers'])
+    #检测是否是https,不晓得为什么req_info本身会变
     if check_https(req_info) == True:
         parse_url = urlparse.urlparse(req_info['url'])
         req_info['url'] = "%s://%s:%s%s%s" % ("https", parse_url.hostname, "443", parse_url.path, "?" + parse_url.query if parse_url.query else "")
-
+    req_info['headers'] = json.loads(req_headers)
     try:
         print(req_info['url'])
     except:
@@ -77,6 +79,8 @@ def check(req):
         # 字符型
         param_tuple = re.finditer(r'("(?P<name>[^"]+)"\s*:\s*".*?)"(?<!\\")', req_info['data'])
         for param in param_tuple:
+            g_sql_info.param = param.group(2)
+            g_sql_info.paramvalue = param.group(1).split('"')[-1]
             req_poc_info = req_info.copy()
             req_poc_info['data'] = req_info['data'][:param.regs[1][0]] + param.group(1) + SQLMARK + req_info['data'][param.regs[1][1]:]
             if g_sql_info.check_mark_sql(req_poc_info) == 1:
@@ -193,6 +197,8 @@ def check(req):
                         return 1
             # post data参数检测
             else:
+                g_sql_info.param = param[0]
+                g_sql_info.paramvalue = param[1]
                 poc_param_list = []
                 poc_param_list = poc_param_list + unquote_post_param_list
                 # payload构造
@@ -225,6 +231,8 @@ def check(req):
         # post中url参数存在注入
         for param_index, param in enumerate(unquote_get_param_list):
             if len(unquote_get_param_list) > 0:
+                g_sql_info.param = param[0]
+                g_sql_info.paramvalue = param[1]
                 # 循环参数
                 poc_param_list = []
                 poc_param_list = poc_param_list + unquote_get_param_list
@@ -272,6 +280,9 @@ def check(req):
         # 动态链接循环参数,len(quote_param_list) > 0用于有层次感，把这句去掉也可以的
         if len(quote_param_list) > 0:
             for param_index, param in enumerate(quote_param_list):
+                g_sql_info.param = param[0]
+                g_sql_info.paramvalue = param[1]
+                
                 poc_param_list = []
                 poc_param_list = poc_param_list + quote_param_list
 

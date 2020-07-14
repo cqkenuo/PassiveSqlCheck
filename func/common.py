@@ -100,20 +100,21 @@ def parse_json(poc_param_list,param_index,param_name,para_json_value,payload):
 # 检测https
 def check_https(req_info):
     try:
-        if req_info['method'] == 'POST':
-            req_right_info = req_info.copy()
+        req_right_info = req_info.copy()
+        if req_right_info['method'] == 'POST':
+            # req_right_info = req_info.copy()
             req_right_info['url'] = req_right_info['url'].replace(SQLMARK,"")
             req_right_info['data'] = req_right_info['data'].replace(SQLMARK, "")
             #req_right_info['headers'] = {}
-            for header in req_info['headers']:
-                req_right_info['headers'][header] = (req_info['headers'][header]).replace(SQLMARK, "")
+            for header in req_right_info['headers']:
+                req_right_info['headers'][header] = (req_right_info['headers'][header]).replace(SQLMARK, "")
             try:
                 # 允许allow_redirects，会报https超过最大连接次数
                 rsp = requests.post(req_right_info['url'], data=req_right_info['data'], headers=req_right_info['headers'], timeout=TIMEOUT,verify=True, allow_redirects=True)
             except:
                 pass
-        if req_info['method'] == 'GET':
-            req_right_info = req_info.copy()
+        if req_right_info['method'] == 'GET':
+            # req_right_info = req_info.copy()
             req_right_info['url'] = req_right_info['url'].replace(SQLMARK,"")
             #req_right_info['headers'] = {}
             try:

@@ -1,6 +1,13 @@
 # PassiveSqlCheck
 被动式注入扫描器，借鉴了lufei大佬的 SqlChecker ： [https://github.com/lufeirider/SqlChecker](https://github.com/lufeirider/SqlChecker)
 
+# 更新
+- `2020-07-14` ：支持普通json格式的数据包
+
+# TODO
+- [ ] 支持xml、mutipart格式
+
+
 # 环境
 python2
 
@@ -12,10 +19,11 @@ python2
 ![](./img/passiveSqlCheck01.png)
 
 2. 配置程序
-func/setting.py:
+
+    func/setting.py:
 - `GARBAGE_PARAM` 存放不想检测的参数
 
-func/SqlChecker.py:
+  func/SqlChecker.py:
 - 如需微信告警需添加 `SERVER_JIANG_API`
 
 2. 命令行执行 `python passiveSqlCheck.py` 
