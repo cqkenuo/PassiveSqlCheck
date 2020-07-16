@@ -354,6 +354,13 @@ class SqlChecker:
                     self.param = param.group(2)
                     self.paramvalue = param.group(4).replace(SQLMARK,'')
                     break
+            elif '=' not in sqlmark_site:
+                param_list = sqlmark_site.split('/')
+                for param in param_list:
+                    if SQLMARK in param:
+                        self.param = 'Pseudo-static'
+                        self.paramvalue = param.replace(SQLMARK, '')
+                        break
             else:
                 self.param = re.search('(?:\?|&|)(\w*?)=(?:[^=]*?)'+SQLMARK, sqlmark_site).group(1)
                 self.paramvalue = re.search('=([^=]*?)'+SQLMARK, sqlmark_site).group(1)
@@ -507,8 +514,7 @@ class SqlChecker:
         if self.level == 1:
             prefix = [
                 "'",
-                # '',
-                # "')"
+                '',
             ]
         else:
             prefix = [

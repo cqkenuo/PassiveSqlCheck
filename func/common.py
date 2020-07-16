@@ -99,6 +99,11 @@ def parse_json(poc_param_list,param_index,param_name,para_json_value,payload):
 
 # 检测https
 def check_https(req_info):
+    for header in req_info['headers']:
+        if header.upper() == 'Origin'.upper() or header.upper() == 'Referer'.upper():
+            if req_info['host'] in req_info['headers'][header]:
+                if 'https' in req_info['headers'][header]:
+                    return True
     try:
         req_right_info = req_info.copy()
         if req_right_info['method'] == 'POST':
@@ -109,25 +114,31 @@ def check_https(req_info):
             for header in req_right_info['headers']:
                 req_right_info['headers'][header] = (req_right_info['headers'][header]).replace(SQLMARK, "")
             try:
-                # 允许allow_redirects，会报https超过最大连接次数
-                rsp = requests.post(req_right_info['url'], data=req_right_info['data'], headers=req_right_info['headers'], timeout=TIMEOUT,verify=True, allow_redirects=True)
-            except:
-                pass
+                rsp = requests.post(req_right_info['url'], data=req_right_info['data'], headers=req_right_info['headers'], timeout=TIMEOUT,verify=True, allow_redirects=False)
+                if str(rsp.status_code)[0] == '3' and rsp.headers['Location'] and 'https://'+req_right_info['host'] in rsp.headers['Location']:
+                    return True
+            except requests.exceptions.SSLError,err:
+                print(err)
+                return True
+            except requests.exceptions.ConnectionError,err:
+                print(err)
+                return True
         if req_right_info['method'] == 'GET':
             # req_right_info = req_info.copy()
             req_right_info['url'] = req_right_info['url'].replace(SQLMARK,"")
             #req_right_info['headers'] = {}
             try:
-                # 允许allow_redirects，会报https超过最大连接次数
-                rsp = requests.get(req_right_info['url'], headers=req_right_info['headers'], timeout=TIMEOUT, verify=True,allow_redirects=True)
-            except:
-                pass
-    except requests.exceptions.SSLError,err:
-        print(err)
-        return True
-    except requests.exceptions.ConnectionError,err:
-        print(err)
-        return True
+                rsp = requests.get(req_right_info['url'], headers=req_right_info['headers'], timeout=TIMEOUT, verify=True,allow_redirects=False)
+                if str(rsp.status_code)[0] == '3' and rsp.headers['Location'] and 'https://'+req_right_info['host'] in rsp.headers['Location']:
+                    return True
+            except requests.exceptions.SSLError,err:
+                print(err)
+                return True
+            except requests.exceptions.ConnectionError,err:
+                print(err)
+                return True
+    except:
+        pass
 
 def get_right_resp(req_info):
     global g_sql_info

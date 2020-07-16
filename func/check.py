@@ -41,7 +41,6 @@ def check(req):
         req_info['headers']['User-Agent'] = 'Mozilla/5.0 (Windows NT 6.1; WOW64) AppleWebKit/537.21 (KHTML, like Gecko) Chrome/41.0.2228.0 Safari/537.21'
 
     req_headers = json.dumps(req_info['headers'])
-    #检测是否是https,不晓得为什么req_info本身会变
     if check_https(req_info) == True:
         parse_url = urlparse.urlparse(req_info['url'])
         req_info['url'] = "%s://%s:%s%s%s" % ("https", parse_url.hostname, "443", parse_url.path, "?" + parse_url.query if parse_url.query else "")
