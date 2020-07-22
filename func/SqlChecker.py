@@ -160,6 +160,12 @@ class SqlChecker:
         fratio = compartion(self.fhtml, self.true_content)
         tratio = compartion(self.thtml, self.true_content)
 
+        # 在自行标记注入点时，有一种情况，会导致fhtml和true_content一致而thtml和true_content有差别
+        if tratio < UPPER_RATIO_BOUND and fratio > UPPER_RATIO_BOUND:
+            banlance = fratio
+            fratio = tratio
+            tratio = banlance
+
         if self.reSend > 1:
             if (fratio - self.ratio) < DIFF_TOLERANCE and (tratio - self.ratio) > DIFF_TOLERANCE:
                 self.result_list.append({'type': 'boolean', 'dbms': self.payload_dbms, 'url': self.req_info['url'], 'param': self.param, 'payload': self.falsePayload, 'packet': self.req})
@@ -595,7 +601,7 @@ class SqlChecker:
                 payload1 = payload1.replace('THEN1ELSE','THEN 1 ELSE')
 
             # 如果存在LIKE则替换等于号为LIKE
-            if 'LIKE' in payload:
+            if 'LIKE' in payload and 'RLIKE' not in payload:
                 if '$RR' in suffix:
                     suffix = suffix.replace('=', ' LIKE ')
                 else:
