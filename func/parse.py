@@ -272,7 +272,7 @@ def parseRequestFile(content, checkParams=True):
 
     if url:
         url = urllib.unquote(url)
-    if data:
-        data = urllib.unquote(data)
+    # if data:
+    #     data = urllib.unquote(data)
     # 还需要host、path、urlparam、bodyparam
     return {'url':url, 'method':method, 'data':data, 'cookie':cookie, 'headers':headers, 'host':domain, 'path':path, 'urlparam':urlparam, 'bodyparam':bodyparam}
