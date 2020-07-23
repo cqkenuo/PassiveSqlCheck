@@ -31,7 +31,7 @@ TIMEOUT = 5
 SQLMARK = "@@"
 
 # server酱的api，用于微信告警 http://sc.ftqq.com/
-SERVER_JIANG_API = ''
+SERVER_JIANG_API = 'SCU91621T5a5a1585afb51c0854d090325c664c735e8053b1ad4ae'
 
 # 结果格式 -> 注入类型、数据库类型、url、参数、payload和数据包
 SQLI = '''
@@ -169,7 +169,7 @@ class SqlChecker:
         if self.reSend > 1:
             if (fratio - self.ratio) < DIFF_TOLERANCE and (tratio - self.ratio) > DIFF_TOLERANCE:
                 self.result_list.append({'type': 'boolean', 'dbms': self.payload_dbms, 'url': self.req_info['url'], 'param': self.param, 'payload': self.falsePayload, 'packet': self.req})
-                self.out_result()
+                # self.out_result()
                 self.reSend = 1
                 return 1
             else:
@@ -199,7 +199,7 @@ class SqlChecker:
                     else:
                         print(u'这是去除标签后的结果，可能存在误报 SqlChecker.py # 定位：去标签比较')
                         self.result_list.append({'type': 'boolean', 'dbms': self.payload_dbms, 'url': self.req_info['url'], 'param': self.param, 'payload': self.falsePayload, 'packet': self.req})
-                        self.out_result()
+                        # self.out_result()
                         # exit()
                         return 1
                 else:
@@ -216,12 +216,16 @@ class SqlChecker:
                 else:
                     print(u'这是去除标签后的结果，可能存在误报 SqlChecker.py # 定位：去标签比较')
                     self.result_list.append({'type': 'boolean', 'dbms': self.payload_dbms, 'url': self.req_info['url'], 'param': self.param, 'payload': self.falsePayload, 'packet': self.req})
-                    self.out_result()
+                    # self.out_result()
                     # exit()
                     return 1
         else:
             # 逻辑真与原始页面不相似 或者 逻辑真与逻辑假完全相同，则进入这里，不存在注入，直接跳过
-            pass
+            # tratio < UPPER_RATIO_BOUND and fratio < UPPER_RATIO_BOUND
+            if tratio != fratio:
+                self.result_list.append({'type': 'boolean', 'dbms': self.payload_dbms, 'url': self.req_info['url'], 'param': self.param, 'payload': self.falsePayload, 'packet': self.req})
+                # self.out_result()
+                return 1
 
     # 发送请求包，并判断注入
     def send_request(self,req_true_info,req_false_info,positiontype):
@@ -265,7 +269,7 @@ class SqlChecker:
                         self.timeout_nums = 1
                         #这里没有使用print(req_info[type]+'存在sql注入')是因为req_info[type]类型不确定，可能是字典或者字符串
                         self.result_list.append({'type': 'time', 'dbms': self.payload_dbms, 'url': self.req_info['url'], 'param': self.param, 'payload': self.falsePayload, 'packet': self.req})
-                        self.out_result()
+                        # self.out_result()
                         # exit()
                         return 1
                     else:
@@ -313,7 +317,7 @@ class SqlChecker:
                         self.timeout_nums = 1
                         #这里没有使用print(req_info[type]+'存在sql注入')是因为req_info[type]类型不确定，可能是字典或者字符串
                         self.result_list.append({'type': 'time', 'dbms': self.payload_dbms, 'url': self.req_info['url'], 'param': self.param, 'payload': self.falsePayload, 'packet': self.req})
-                        self.out_result()
+                        # self.out_result()
                         # exit()
                         return 1
                     else:
@@ -368,7 +372,7 @@ class SqlChecker:
                         self.paramvalue = param.replace(SQLMARK, '')
                         break
             else:
-                self.param = re.search('(?:\?|&|)(\w*?)=(?:[^=]*?)'+SQLMARK, sqlmark_site).group(1)
+                self.param = re.search('(?:\?|&|)([^\?|&]*?)=(?:[^=]*?)'+SQLMARK, sqlmark_site).group(1)
                 self.paramvalue = re.search('=([^=]*?)'+SQLMARK, sqlmark_site).group(1)
         # # headers
         # if isinstance(sqlmark_site, dict):
@@ -532,7 +536,8 @@ class SqlChecker:
         # 判断当前参数值是否是字符串，如果是字符串，则不用数字型进行注入
         isStr = 0
         try:
-            value = float(self.paramvalue)
+            if self.paramvalue != '':
+                float(self.paramvalue)
         except ValueError:
             isStr = 1
 

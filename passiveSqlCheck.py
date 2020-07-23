@@ -13,6 +13,7 @@ def main():
         hostname = re.search('Host: (.*?)\n', req).group(1).strip()
         if args.host == []:
             check(req)
+            g_sql_info.out_result()
             g_sql_info.mark_flag = False
             g_sql_info.result_list = []
             g_sql_info.rank += 1
@@ -21,12 +22,14 @@ def main():
                 if '*.' in host:
                     if host.replace('*.','') in hostname:
                         check(req)
+                        g_sql_info.out_result()
                         g_sql_info.mark_flag = False
                         g_sql_info.result_list = []
                         g_sql_info.rank += 1
                 else:
                     if host in hostname:
                         check(req)
+                        g_sql_info.out_result()
                         g_sql_info.mark_flag = False
                         g_sql_info.result_list = []
                         g_sql_info.rank += 1
